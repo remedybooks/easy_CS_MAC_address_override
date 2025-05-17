@@ -1,5 +1,5 @@
 #!/user/bin/env python
-#the code can cause system issues if not run on a virtual workstation
+#WARNING:Code can cause system issues if NOT run on a virtual workstation
 
 import subprocess
 import optparse
@@ -15,10 +15,12 @@ def get_inputs():
     if not options.mac_override:
         parser.error("No valid MAC address entered")
     return options
+
 def override_mac (interface, mac_override):
     subprocess.call(["ifconfig", interface, "down"])
-    subprocess.call(["ifconfig", interface, "hw ether", mac_override])
+    subprocess.call(["ifconfig", interface, "hw", "ether", mac_override])
     subprocess.call(["ifconfig", interface, "up"])
+
 def show_mac (interface):
     address_output = subprocess.check_output(["ifconfig", interface])
     final_result = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w", address_output)
